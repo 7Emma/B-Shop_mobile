@@ -1,4 +1,4 @@
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/better-sqlite3";
 import Database from "better-sqlite3";
 import {
@@ -81,11 +81,11 @@ export async function upsertUser(user: InsertUser): Promise<void> {
     }
 
     if (!values.lastSignedIn) {
-      values.lastSignedIn = new Date();
+      values.lastSignedIn = new Date().toISOString();
     }
 
     if (Object.keys(updateSet).length === 0) {
-      updateSet.lastSignedIn = new Date();
+      updateSet.lastSignedIn = new Date().toISOString();
     }
 
     await db
@@ -181,7 +181,20 @@ export async function getCartItems(userId: number) {
   const db = await getDb();
   if (!db) return [];
 
-  return db.select().from(cartItems).where(eq(cartItems.userId, userId));
+  return db
+    .select({
+      id: cartItems.id,
+      userId: cartItems.userId,
+      productId: cartItems.productId,
+      quantity: cartItems.quantity,
+      createdAt: cartItems.createdAt,
+      updatedAt: cartItems.updatedAt,
+      productName: products.name,
+      price: products.price,
+    })
+    .from(cartItems)
+    .innerJoin(products, eq(cartItems.productId, products.id))
+    .where(eq(cartItems.userId, userId));
 }
 
 export async function addToCart(data: InsertCartItem) {
@@ -288,8 +301,12 @@ export async function getDefaultAddress(userId: number) {
   const result = await db
     .select()
     .from(userAddresses)
-    .where(eq(userAddresses.userId, userId))
-    .where(eq(userAddresses.isDefault, true));
+    .where(
+      and(
+        eq(userAddresses.userId, userId),
+        eq(userAddresses.isDefault, true),
+      ),
+    );
 
   return result[0] || null;
 }
@@ -367,6 +384,7 @@ export async function removeFromWishlist(userId: number, productId: number) {
 
   await db
     .delete(wishlist)
-    .where(eq(wishlist.userId, userId))
-    .where(eq(wishlist.productId, productId));
+    .where(
+      and(eq(wishlist.userId, userId), eq(wishlist.productId, productId)),
+    );
 }

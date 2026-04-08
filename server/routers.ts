@@ -55,7 +55,7 @@ export const appRouter = router({
           email,
           passwordHash,
           loginMethod: "email",
-          lastSignedIn: new Date(),
+          lastSignedIn: new Date().toISOString(),
         });
 
         const user = await getUserByEmail(email);
@@ -114,7 +114,10 @@ export const appRouter = router({
         }
 
         // Update last signed in time
-        await upsertUser({ openId: user.openId, lastSignedIn: new Date() });
+        await upsertUser({
+          openId: user.openId,
+          lastSignedIn: new Date().toISOString(),
+        });
 
         const token = await signSession({
           sub: user.openId,

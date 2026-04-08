@@ -11,8 +11,18 @@ type ThemeContextValue = {
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
+/**
+ * RN peut renvoyer "unspecified" (surtout Android) : SchemeColors n'a que light/dark,
+ * donc il faut normaliser sinon vars() lit undefined.primary et l'app crash au démarrage.
+ */
+function resolveColorScheme(
+  native: ReturnType<typeof useSystemColorScheme>,
+): ColorScheme {
+  return native === "dark" ? "dark" : "light";
+}
+
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const systemScheme = useSystemColorScheme() ?? "light";
+  const systemScheme = resolveColorScheme(useSystemColorScheme());
   const [colorScheme, setColorSchemeState] = useState<ColorScheme>(systemScheme);
 
   const applyScheme = useCallback((scheme: ColorScheme) => {
@@ -42,8 +52,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     () =>
       vars({
         "color-primary": SchemeColors[colorScheme].primary,
+        "color-secondary": SchemeColors[colorScheme].secondary,
         "color-background": SchemeColors[colorScheme].background,
         "color-surface": SchemeColors[colorScheme].surface,
+        "color-cardInner": SchemeColors[colorScheme].cardInner,
         "color-foreground": SchemeColors[colorScheme].foreground,
         "color-muted": SchemeColors[colorScheme].muted,
         "color-border": SchemeColors[colorScheme].border,
@@ -61,7 +73,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }),
     [colorScheme, setColorScheme],
   );
-  console.log(value, themeVariables)
 
   return (
     <ThemeContext.Provider value={value}>

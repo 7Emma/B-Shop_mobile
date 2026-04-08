@@ -15,7 +15,7 @@ export async function createContext(opts: CreateExpressContextOptions): Promise<
   try {
     const session = await authenticateRequest(opts.req);
     if (session?.sub) {
-      user = await getUserByOpenId(session.sub);
+      user = (await getUserByOpenId(session.sub)) ?? null;
     }
   } catch (error) {
     user = null;

@@ -54,36 +54,36 @@ export default function CatalogScreen() {
   const resultCount = filteredProducts?.length ?? 0;
 
   return (
-    <ScreenContainer className="p-0 bg-zinc-950">
+    <ScreenContainer className="p-0 bg-background">
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
         {/* ── Header ── */}
         <View className="px-6 pt-12 pb-4">
-          <Text className="text-xs font-semibold tracking-widest text-zinc-500 uppercase mb-1">
+          <Text className="text-xs font-semibold tracking-widest text-muted uppercase mb-1">
             Browse
           </Text>
-          <Text className="text-2xl font-bold text-white">Catalog</Text>
+          <Text className="text-2xl font-bold text-foreground">Catalog</Text>
         </View>
 
         {/* ── Search Bar ── */}
         <View className="px-6 pb-4">
-          <View className="bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-3 flex-row items-center">
+          <View className="bg-surface border border-border rounded-2xl px-4 py-3 flex-row items-center">
             <Text className="text-base mr-3">🔍</Text>
             <TextInput
               placeholder="Search products..."
               value={searchText}
               onChangeText={setSearchText}
-              className="flex-1 text-white text-sm"
+              className="flex-1 text-foreground text-sm"
               placeholderTextColor={colors.muted}
             />
             {searchText.length > 0 && (
               <TouchableOpacity
                 onPress={() => setSearchText("")}
-                className="w-6 h-6 rounded-full bg-zinc-700 items-center justify-center ml-2"
+                className="w-6 h-6 rounded-full bg-cardInner items-center justify-center ml-2"
               >
-                <Text className="text-zinc-300 text-xs font-bold">✕</Text>
+                <Text className="text-muted text-xs font-bold">✕</Text>
               </TouchableOpacity>
             )}
           </View>
@@ -110,13 +110,13 @@ export default function CatalogScreen() {
                   className={`flex-row items-center px-4 py-2 rounded-2xl border ${
                     isActive
                       ? "bg-primary border-primary"
-                      : "bg-zinc-900 border-zinc-800"
+                      : "bg-surface border-border"
                   }`}
                 >
                   <Text className="text-sm mr-1.5">{CATEGORY_ICONS[item]}</Text>
                   <Text
                     className={`font-semibold text-sm ${
-                      isActive ? "text-white" : "text-zinc-400"
+                      isActive ? "text-white" : "text-muted"
                     }`}
                   >
                     {item}
@@ -130,7 +130,7 @@ export default function CatalogScreen() {
         {/* ── Results Count ── */}
         {!isLoading && !isError && (
           <View className="px-6 pb-3">
-            <Text className="text-xs text-zinc-500 font-medium">
+            <Text className="text-xs text-muted font-medium">
               {resultCount} {resultCount === 1 ? "product" : "products"} found
             </Text>
           </View>
@@ -144,24 +144,24 @@ export default function CatalogScreen() {
             </View>
           ) : isError ? (
             <View className="h-64 items-center justify-center">
-              <View className="bg-zinc-900 border border-zinc-800 rounded-3xl px-8 py-8 items-center">
+              <View className="bg-surface border border-border rounded-3xl px-8 py-8 items-center">
                 <Text className="text-3xl mb-3">⚠️</Text>
-                <Text className="text-white font-semibold mb-1">
+                <Text className="text-foreground font-semibold mb-1">
                   Something went wrong
                 </Text>
-                <Text className="text-zinc-500 text-sm">
+                <Text className="text-muted text-sm">
                   Unable to load products
                 </Text>
               </View>
             </View>
           ) : resultCount === 0 ? (
             <View className="h-64 items-center justify-center">
-              <View className="bg-zinc-900 border border-zinc-800 rounded-3xl px-8 py-8 items-center">
+              <View className="bg-surface border border-border rounded-3xl px-8 py-8 items-center">
                 <Text className="text-3xl mb-3">🔍</Text>
-                <Text className="text-white font-semibold mb-1">
+                <Text className="text-foreground font-semibold mb-1">
                   No results
                 </Text>
-                <Text className="text-zinc-500 text-sm">
+                <Text className="text-muted text-sm">
                   Try a different search or category
                 </Text>
               </View>
@@ -173,10 +173,10 @@ export default function CatalogScreen() {
                   key={product.id}
                   onPress={() => handleProductPress(product.id)}
                   activeOpacity={0.8}
-                  className="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden flex-row"
+                  className="bg-surface border border-border rounded-3xl overflow-hidden flex-row"
                 >
                   {/* Image */}
-                  <View className="w-28 h-28 bg-zinc-800 items-center justify-center">
+                  <View className="w-28 h-28 bg-cardInner items-center justify-center">
                     <Text className="text-4xl">📦</Text>
                   </View>
 
@@ -184,13 +184,13 @@ export default function CatalogScreen() {
                   <View className="flex-1 px-4 py-4 justify-between">
                     <View>
                       <Text
-                        className="font-semibold text-white text-sm leading-snug mb-1"
+                        className="font-semibold text-foreground text-sm leading-snug mb-1"
                         numberOfLines={2}
                       >
                         {product.name}
                       </Text>
-                      <View className="flex-row items-center self-start bg-zinc-800 rounded-full px-2 py-0.5">
-                        <Text className="text-zinc-400 text-xs">
+                      <View className="flex-row items-center self-start bg-cardInner rounded-full px-2 py-0.5">
+                        <Text className="text-muted text-xs">
                           {product.category}
                         </Text>
                       </View>
@@ -200,9 +200,9 @@ export default function CatalogScreen() {
                       <Text className="text-base font-black text-primary">
                         ${product.price}
                       </Text>
-                      <View className="flex-row items-center bg-zinc-800 rounded-full px-2 py-0.5">
+                      <View className="flex-row items-center bg-cardInner rounded-full px-2 py-0.5">
                         <Text className="text-xs mr-0.5">⭐</Text>
-                        <Text className="text-xs text-zinc-300 font-medium">
+                        <Text className="text-xs text-muted font-medium">
                           {product.rating}
                         </Text>
                       </View>
@@ -211,7 +211,7 @@ export default function CatalogScreen() {
 
                   {/* Arrow */}
                   <View className="justify-center pr-4">
-                    <Text className="text-zinc-600 text-xl">›</Text>
+                    <Text className="text-muted text-xl">›</Text>
                   </View>
                 </TouchableOpacity>
               ))}

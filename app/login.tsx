@@ -3,7 +3,6 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ActivityIndicator,
   Alert,
   Platform,
 } from "react-native";
@@ -31,8 +30,8 @@ export default function LoginScreen() {
       : GOOGLE_CLIENT_ID);
 
   WebBrowser.maybeCompleteAuthSession();
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: GOOGLE_CLIENT_ID,
+  const [, response, promptAsync] = Google.useAuthRequest({
+    clientId: GOOGLE_CLIENT_ID ?? "",
     webClientId: GOOGLE_CLIENT_ID,
     iosClientId: GOOGLE_CLIENT_ID_IOS,
     androidClientId: GOOGLE_CLIENT_ID_ANDROID,
@@ -96,35 +95,45 @@ export default function LoginScreen() {
         showsVerticalScrollIndicator={false}
       >
         {/* Header */}
-        <View className="bg-primary px-6 py-8">
-          <TouchableOpacity onPress={() => router.back()} className="mb-4">
-            <Text className="text-white text-lg">← Back</Text>
+        <View className="relative overflow-hidden bg-primary px-6 pt-12 pb-10 rounded-b-[28px]">
+          <View className="absolute -right-12 -top-8 h-40 w-40 rounded-full bg-white/12" />
+          <View className="absolute -left-6 top-24 h-28 w-28 rounded-full bg-secondary/35" />
+          <TouchableOpacity onPress={() => router.back()} className="mb-5 z-10">
+            <Text className="text-white/95 text-base font-medium">← Back</Text>
           </TouchableOpacity>
-          <Text className="text-3xl font-bold text-white">Welcome Back</Text>
-          <Text className="text-white text-opacity-90 mt-2">
+          <Text className="text-3xl font-extrabold text-white tracking-tight z-10">
+            Welcome back
+          </Text>
+          <Text className="text-white/90 mt-2 text-base leading-relaxed z-10 max-w-[90%]">
             Sign in to your B-Shop account
           </Text>
         </View>
 
         {/* Login Form */}
-        <View className="px-6 py-8 gap-6">
-          <View className="bg-secondary/10 border border-border rounded-xl p-4">
-            <Text className="text-sm font-semibold text-foreground mb-1">
-              Google sign-in only
-            </Text>
-            <Text className="text-muted text-sm">
-              Email & password login is disabled. Use Google to continue.
+        <View className="px-6 py-8 gap-6 -mt-2">
+          <View className="bg-surface border border-border rounded-2xl p-4 shadow-sm">
+            <View className="flex-row items-center gap-2 mb-2">
+              <View className="h-8 w-8 rounded-full bg-secondary/15 items-center justify-center">
+                <Text className="text-sm">🔐</Text>
+              </View>
+              <Text className="text-sm font-bold text-foreground">
+                Google sign-in
+              </Text>
+            </View>
+            <Text className="text-muted text-sm leading-relaxed pl-10">
+              Use your Google account to continue — quick and secure.
             </Text>
           </View>
 
           <TouchableOpacity
             onPress={handleOAuthLogin}
             disabled={isLoading || !isGoogleAuthAvailable}
-            className={`border border-border rounded-full py-4 items-center flex-row justify-center gap-2 bg-surface ${!isGoogleAuthAvailable ? "opacity-50" : ""}`}
+            activeOpacity={0.88}
+            className={`rounded-2xl py-4 items-center flex-row justify-center gap-2 bg-surface border-2 border-border ${!isGoogleAuthAvailable ? "opacity-50" : ""}`}
           >
-            <Text className="text-2xl">🟢</Text>
-            <Text className="text-foreground font-semibold">
-              Sign in with Google
+            <Text className="text-xl">🟢</Text>
+            <Text className="text-foreground font-bold">
+              Continue with Google
             </Text>
           </TouchableOpacity>
 
@@ -136,7 +145,7 @@ export default function LoginScreen() {
 
           {/* Sign Up Link */}
           <View className="flex-row items-center justify-center gap-1 mt-4">
-            <Text className="text-muted">Don't have an account?</Text>
+            <Text className="text-muted">{"Don't have an account?"}</Text>
             <TouchableOpacity onPress={() => router.push("/signup")}>
               <Text className="text-primary font-semibold">Sign Up</Text>
             </TouchableOpacity>

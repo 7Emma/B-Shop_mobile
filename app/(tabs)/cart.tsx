@@ -28,7 +28,7 @@ export default function CartScreen() {
 
   const calculateSubtotal = () => {
     return (cartItems ?? []).reduce((sum, item) => {
-      return sum + parseFloat(item.price) * item.quantity;
+      return sum + Number(item.price) * item.quantity;
     }, 0);
   };
 
@@ -58,7 +58,7 @@ export default function CartScreen() {
 
   if (authLoading || isLoading) {
     return (
-      <ScreenContainer className="items-center justify-center bg-zinc-950">
+      <ScreenContainer className="items-center justify-center">
         <ActivityIndicator size="large" color={colors.primary} />
       </ScreenContainer>
     );
@@ -66,15 +66,15 @@ export default function CartScreen() {
 
   if (!isAuthenticated) {
     return (
-      <ScreenContainer className="items-center justify-center px-6 bg-zinc-950">
-        <View className="bg-zinc-900 border border-zinc-800 rounded-3xl px-8 py-10 items-center w-full">
-          <View className="w-16 h-16 rounded-3xl bg-zinc-800 items-center justify-center mb-5">
+      <ScreenContainer className="items-center justify-center px-6">
+        <View className="bg-surface border border-border rounded-3xl px-8 py-10 items-center w-full">
+          <View className="w-16 h-16 rounded-3xl bg-cardInner items-center justify-center mb-5">
             <Text className="text-3xl">🛒</Text>
           </View>
-          <Text className="text-xl font-bold text-white mb-2">
+          <Text className="text-xl font-bold text-foreground mb-2">
             Sign in required
           </Text>
-          <Text className="text-center text-zinc-400 text-sm leading-relaxed mb-6">
+          <Text className="text-center text-muted text-sm leading-relaxed mb-6">
             Please sign in to view and manage your shopping cart.
           </Text>
           <TouchableOpacity
@@ -90,18 +90,20 @@ export default function CartScreen() {
   }
 
   return (
-    <ScreenContainer className="p-0 bg-zinc-950">
+    <ScreenContainer className="p-0 bg-background">
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
         {/* ── Header ── */}
         <View className="px-6 pt-12 pb-6">
-          <Text className="text-xs font-semibold tracking-widest text-zinc-500 uppercase mb-1">
+          <Text className="text-xs font-semibold tracking-widest text-muted uppercase mb-1">
             My Cart
           </Text>
           <View className="flex-row items-center justify-between">
-            <Text className="text-2xl font-bold text-white">Shopping Cart</Text>
+            <Text className="text-2xl font-bold text-foreground">
+              Shopping Cart
+            </Text>
             {(cartItems?.length ?? 0) > 0 && (
               <View className="bg-primary rounded-full px-3 py-1">
                 <Text className="text-white text-xs font-bold">
@@ -116,14 +118,14 @@ export default function CartScreen() {
         {/* ── Empty State ── */}
         {(cartItems?.length ?? 0) === 0 ? (
           <View className="flex-1 items-center justify-center px-6 py-12">
-            <View className="bg-zinc-900 border border-zinc-800 rounded-3xl px-8 py-10 items-center w-full">
-              <View className="w-20 h-20 rounded-3xl bg-zinc-800 items-center justify-center mb-5">
+            <View className="bg-surface border border-border rounded-3xl px-8 py-10 items-center w-full">
+              <View className="w-20 h-20 rounded-3xl bg-cardInner items-center justify-center mb-5">
                 <Text className="text-4xl">🛒</Text>
               </View>
-              <Text className="text-xl font-bold text-white mb-2">
+              <Text className="text-xl font-bold text-foreground mb-2">
                 Your cart is empty
               </Text>
-              <Text className="text-center text-zinc-400 text-sm leading-relaxed mb-6">
+              <Text className="text-center text-muted text-sm leading-relaxed mb-6">
                 Add some products to get started!
               </Text>
               <TouchableOpacity
@@ -144,17 +146,17 @@ export default function CartScreen() {
               {cartItems?.map((item) => (
                 <View
                   key={item.id}
-                  className="bg-zinc-900 border border-zinc-800 rounded-3xl p-4 flex-row items-center"
+                  className="bg-surface border border-border rounded-3xl p-4 flex-row items-center"
                 >
                   {/* Image */}
-                  <View className="w-16 h-16 bg-zinc-800 rounded-2xl items-center justify-center mr-4">
+                  <View className="w-16 h-16 bg-cardInner rounded-2xl items-center justify-center mr-4">
                     <Text className="text-2xl">📦</Text>
                   </View>
 
                   {/* Info */}
                   <View className="flex-1">
                     <Text
-                      className="font-semibold text-white text-sm leading-snug mb-1"
+                      className="font-semibold text-foreground text-sm leading-snug mb-1"
                       numberOfLines={2}
                     >
                       {item.productName ?? `Product #${item.productId}`}
@@ -167,16 +169,18 @@ export default function CartScreen() {
                   {/* Controls */}
                   <View className="items-end gap-2">
                     {/* Quantity stepper */}
-                    <View className="flex-row items-center bg-zinc-800 rounded-2xl overflow-hidden">
+                    <View className="flex-row items-center bg-cardInner rounded-2xl overflow-hidden border border-border">
                       <TouchableOpacity
                         onPress={() =>
                           handleQuantityChange(item.id, item.quantity - 1)
                         }
                         className="w-8 h-8 items-center justify-center"
                       >
-                        <Text className="text-white text-lg font-bold">−</Text>
+                        <Text className="text-foreground text-lg font-bold">
+                          −
+                        </Text>
                       </TouchableOpacity>
-                      <Text className="w-7 text-center text-white font-bold text-sm">
+                      <Text className="w-7 text-center text-foreground font-bold text-sm">
                         {item.quantity}
                       </Text>
                       <TouchableOpacity
@@ -185,7 +189,9 @@ export default function CartScreen() {
                         }
                         className="w-8 h-8 items-center justify-center"
                       >
-                        <Text className="text-white text-lg font-bold">+</Text>
+                        <Text className="text-foreground text-lg font-bold">
+                          +
+                        </Text>
                       </TouchableOpacity>
                     </View>
 
@@ -202,27 +208,27 @@ export default function CartScreen() {
             </View>
 
             {/* ── Order Summary ── */}
-            <View className="mx-6 mb-6 bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
-              <Text className="text-xs font-semibold tracking-widest text-zinc-500 uppercase mb-4">
+            <View className="mx-6 mb-6 bg-surface border border-border rounded-3xl p-6">
+              <Text className="text-xs font-semibold tracking-widest text-muted uppercase mb-4">
                 Order Summary
               </Text>
 
               {/* Line items */}
-              <View className="gap-3 mb-4 pb-4 border-b border-zinc-800">
+              <View className="gap-3 mb-4 pb-4 border-b border-border">
                 <View className="flex-row justify-between items-center">
-                  <Text className="text-zinc-400 text-sm">Subtotal</Text>
-                  <Text className="text-white font-semibold">
+                  <Text className="text-muted text-sm">Subtotal</Text>
+                  <Text className="text-foreground font-semibold">
                     ${calculateSubtotal().toFixed(2)}
                   </Text>
                 </View>
                 <View className="flex-row justify-between items-center">
-                  <Text className="text-zinc-400 text-sm">Tax (10%)</Text>
-                  <Text className="text-white font-semibold">
+                  <Text className="text-muted text-sm">Tax (10%)</Text>
+                  <Text className="text-foreground font-semibold">
                     ${calculateTax().toFixed(2)}
                   </Text>
                 </View>
                 <View className="flex-row justify-between items-center">
-                  <Text className="text-zinc-400 text-sm">Shipping</Text>
+                  <Text className="text-muted text-sm">Shipping</Text>
                   <View className="bg-emerald-950 border border-emerald-800 rounded-full px-2 py-0.5">
                     <Text className="text-emerald-400 text-xs font-bold">
                       FREE
@@ -233,7 +239,7 @@ export default function CartScreen() {
 
               {/* Total */}
               <View className="flex-row justify-between items-center mb-6">
-                <Text className="text-white font-bold text-base">Total</Text>
+                <Text className="text-foreground font-bold text-base">Total</Text>
                 <Text className="text-2xl font-black text-primary">
                   ${calculateTotal().toFixed(2)}
                 </Text>
@@ -257,7 +263,7 @@ export default function CartScreen() {
                 activeOpacity={0.7}
                 className="mt-3 py-2 items-center"
               >
-                <Text className="text-zinc-500 text-sm font-medium">
+                <Text className="text-muted text-sm font-medium">
                   ← Continue Shopping
                 </Text>
               </TouchableOpacity>

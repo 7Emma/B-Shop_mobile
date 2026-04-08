@@ -1,18 +1,46 @@
 import { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
-import { PlatformPressable } from "@react-navigation/elements";
 import * as Haptics from "expo-haptics";
+import { Pressable } from "react-native";
 
+/** Tab bar button with light haptics; avoids PlatformPressable’s navigation theme hook. */
 export function HapticTab(props: BottomTabBarButtonProps) {
+  const {
+    children,
+    style,
+    onPress,
+    onPressIn,
+    onPressOut,
+    onLongPress,
+    disabled,
+    android_ripple,
+    hoverEffect,
+    pressOpacity,
+    pressColor,
+    href,
+    ...rest
+  } = props;
+  void hoverEffect;
+  void pressOpacity;
+  void pressColor;
+  void href;
+
   return (
-    <PlatformPressable
-      {...props}
+    <Pressable
+      {...rest}
+      android_ripple={android_ripple}
+      disabled={disabled}
+      style={style}
+      onPress={onPress}
+      onLongPress={onLongPress}
+      onPressOut={onPressOut}
       onPressIn={(ev) => {
         if (process.env.EXPO_OS === "ios") {
-          // Add a soft haptic feedback when pressing down on the tabs.
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+          void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
         }
-        props.onPressIn?.(ev);
+        onPressIn?.(ev);
       }}
-    />
+    >
+      {children}
+    </Pressable>
   );
 }

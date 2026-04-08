@@ -39,6 +39,7 @@ export default function ProductScreen() {
   });
 
   const handleAddToCart = async () => {
+    if (!product) return;
     if (!isAuthenticated) {
       Alert.alert(
         "Sign in required",
@@ -59,6 +60,7 @@ export default function ProductScreen() {
   };
 
   const handleBuyNow = async () => {
+    if (!product) return;
     if (!isAuthenticated) {
       Alert.alert("Sign in required", "Please sign in to checkout.");
       router.push("/login");
@@ -96,6 +98,8 @@ export default function ProductScreen() {
       </ScreenContainer>
     );
   }
+
+  const inStock = (product.stock ?? 0) > 0;
 
   return (
     <ScreenContainer className="p-0">
@@ -216,9 +220,9 @@ export default function ProductScreen() {
           <View className="gap-3 pt-4">
             <TouchableOpacity
               onPress={handleAddToCart}
-              disabled={!product.inStock || loading}
+              disabled={!inStock || loading}
               className={`rounded-full py-4 items-center border border-primary ${
-                !product.inStock || loading ? "opacity-50" : ""
+                !inStock || loading ? "opacity-50" : ""
               }`}
             >
               {loading ? (
@@ -232,8 +236,8 @@ export default function ProductScreen() {
 
             <TouchableOpacity
               onPress={handleBuyNow}
-              disabled={!product.inStock || loading}
-              className={`rounded-full py-4 items-center bg-primary ${!product.inStock || loading ? "opacity-50" : ""}`}
+              disabled={!inStock || loading}
+              className={`rounded-full py-4 items-center bg-primary ${!inStock || loading ? "opacity-50" : ""}`}
             >
               {loading ? (
                 <ActivityIndicator color="white" />
@@ -256,8 +260,9 @@ export default function ProductScreen() {
                 <Text className="text-sm">⭐⭐⭐⭐⭐</Text>
               </View>
               <Text className="text-sm text-muted">
-                "Excellent headphones! Great sound quality and very comfortable
-                to wear for long periods."
+                {
+                  "Excellent headphones! Great sound quality and very comfortable to wear for long periods."
+                }
               </Text>
             </View>
           </View>

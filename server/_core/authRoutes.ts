@@ -22,7 +22,7 @@ export function registerAuthRoutes(app: Express) {
         email: profile.email,
         name: profile.name,
         loginMethod: "google",
-        lastSignedIn: new Date(),
+        lastSignedIn: new Date().toISOString(),
       });
       const user = await getUserByOpenId(profile.sub);
 

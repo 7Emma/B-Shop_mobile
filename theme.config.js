@@ -1,16 +1,18 @@
 /** @type {const} */
 const themeColors = {
   // Brand palette derived from the logo: orange, white, and blue
-  primary: { light: '#ff7a1a', dark: '#ff9a4d' }, // Orange accent
-  secondary: { light: '#1f6feb', dark: '#4c8eff' }, // Blue accent
-  background: { light: '#ffffff', dark: '#0f172a' },
-  surface: { light: '#f7f9fc', dark: '#111827' },
-  foreground: { light: '#0f172a', dark: '#e5e7eb' },
-  muted: { light: '#6b7280', dark: '#94a3b8' },
-  border: { light: '#e2e8f0', dark: '#1f2937' },
-  success: { light: '#16a34a', dark: '#22c55e' },
-  warning: { light: '#f59e0b', dark: '#fbbf24' },
-  error: { light: '#ef4444', dark: '#f87171' },
+  primary: { light: "#e8680c", dark: "#ff9f5c" },
+  secondary: { light: "#1d63d8", dark: "#6ba3ff" },
+  background: { light: "#f4f6fa", dark: "#070b12" },
+  surface: { light: "#ffffff", dark: "#121826" },
+  /** Thumbnails, chips, steppers — slightly inset from `surface` */
+  cardInner: { light: "#eef2f7", dark: "#1e2838" },
+  foreground: { light: "#0c1222", dark: "#f1f5f9" },
+  muted: { light: "#64748b", dark: "#8b9cb3" },
+  border: { light: "#e2e8f0", dark: "#2a3444" },
+  success: { light: "#15803d", dark: "#34d399" },
+  warning: { light: "#d97706", dark: "#fbbf24" },
+  error: { light: "#dc2626", dark: "#fb7185" },
 };
 
 module.exports = { themeColors };

@@ -45,7 +45,7 @@ export default function ProfileScreen() {
 
   if (authLoading) {
     return (
-      <ScreenContainer className="items-center justify-center bg-zinc-950">
+      <ScreenContainer className="items-center justify-center">
         <ActivityIndicator size="large" color={colors.primary} />
       </ScreenContainer>
     );
@@ -53,30 +53,30 @@ export default function ProfileScreen() {
 
   if (!isAuthenticated) {
     return (
-      <ScreenContainer className="p-0 bg-zinc-950">
+      <ScreenContainer className="p-0 bg-background">
         <ScrollView
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
         >
           {/* Header */}
           <View className="px-6 pt-12 pb-6">
-            <Text className="text-xs font-semibold tracking-widest text-zinc-500 uppercase mb-1">
+            <Text className="text-xs font-semibold tracking-widest text-muted uppercase mb-1">
               Account
             </Text>
-            <Text className="text-2xl font-bold text-white">Profile</Text>
+            <Text className="text-2xl font-bold text-foreground">Profile</Text>
           </View>
 
           {/* Sign In Prompt */}
           <View className="flex-1 items-center justify-center px-6 py-12">
             {/* Avatar placeholder */}
-            <View className="w-24 h-24 rounded-3xl bg-zinc-900 border border-zinc-800 items-center justify-center mb-6">
+            <View className="w-24 h-24 rounded-3xl bg-surface border border-border items-center justify-center mb-6">
               <Text className="text-5xl">👤</Text>
             </View>
 
-            <Text className="text-2xl font-bold text-white mb-2">
+            <Text className="text-2xl font-bold text-foreground mb-2">
               Not signed in
             </Text>
-            <Text className="text-center text-zinc-400 text-sm leading-relaxed mb-8 max-w-xs">
+            <Text className="text-center text-muted text-sm leading-relaxed mb-8 max-w-xs">
               Sign in to access your profile, order history, and saved
               addresses.
             </Text>
@@ -95,7 +95,7 @@ export default function ProfileScreen() {
             <View className="flex-row mt-8 gap-6">
               {["Orders", "Wishlist", "Addresses"].map((perk) => (
                 <View key={perk} className="items-center">
-                  <View className="w-10 h-10 rounded-2xl bg-zinc-900 border border-zinc-800 items-center justify-center mb-1.5">
+                  <View className="w-10 h-10 rounded-2xl bg-surface border border-border items-center justify-center mb-1.5">
                     <Text className="text-base">
                       {perk === "Orders"
                         ? "📦"
@@ -104,7 +104,7 @@ export default function ProfileScreen() {
                           : "📍"}
                     </Text>
                   </View>
-                  <Text className="text-xs text-zinc-500">{perk}</Text>
+                  <Text className="text-xs text-muted">{perk}</Text>
                 </View>
               ))}
             </View>
@@ -115,33 +115,33 @@ export default function ProfileScreen() {
   }
 
   return (
-    <ScreenContainer className="p-0 bg-zinc-950">
+    <ScreenContainer className="p-0 bg-background">
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
         showsVerticalScrollIndicator={false}
       >
         {/* ── Header ── */}
         <View className="px-6 pt-12 pb-6">
-          <Text className="text-xs font-semibold tracking-widest text-zinc-500 uppercase mb-1">
+          <Text className="text-xs font-semibold tracking-widest text-muted uppercase mb-1">
             Account
           </Text>
-          <Text className="text-2xl font-bold text-white">Profile</Text>
+          <Text className="text-2xl font-bold text-foreground">Profile</Text>
         </View>
 
         {/* ── User Card ── */}
-        <View className="mx-6 mb-6 bg-zinc-900 border border-zinc-800 rounded-3xl p-6">
+        <View className="mx-6 mb-6 bg-surface border border-border rounded-3xl p-6">
           <View className="flex-row items-center">
             {/* Avatar */}
-            <View className="w-16 h-16 rounded-2xl bg-primary items-center justify-center mr-4">
+            <View className="w-16 h-16 rounded-2xl bg-primary items-center justify-center mr-4 border border-white/20">
               <Text className="text-3xl">👤</Text>
             </View>
 
             {/* Info */}
             <View className="flex-1">
-              <Text className="text-lg font-bold text-white mb-0.5">
+              <Text className="text-lg font-bold text-foreground mb-0.5">
                 {user?.name || "User"}
               </Text>
-              <Text className="text-sm text-zinc-400 mb-2">
+              <Text className="text-sm text-muted mb-2">
                 {user?.email || "No email"}
               </Text>
               <View className="flex-row items-center self-start bg-emerald-950 border border-emerald-800 rounded-full px-3 py-0.5">
@@ -153,7 +153,7 @@ export default function ProfileScreen() {
           </View>
 
           {/* Stats row */}
-          <View className="flex-row mt-5 pt-5 border-t border-zinc-800">
+          <View className="flex-row mt-5 pt-5 border-t border-border">
             {[
               { label: "Orders", value: "12" },
               { label: "Wishlist", value: "5" },
@@ -161,12 +161,12 @@ export default function ProfileScreen() {
             ].map((stat, i, arr) => (
               <View
                 key={stat.label}
-                className={`flex-1 items-center ${i < arr.length - 1 ? "border-r border-zinc-800" : ""}`}
+                className={`flex-1 items-center ${i < arr.length - 1 ? "border-r border-border" : ""}`}
               >
-                <Text className="text-white font-black text-lg">
+                <Text className="text-foreground font-black text-lg">
                   {stat.value}
                 </Text>
-                <Text className="text-zinc-500 text-xs mt-0.5">
+                <Text className="text-muted text-xs mt-0.5">
                   {stat.label}
                 </Text>
               </View>
@@ -176,11 +176,11 @@ export default function ProfileScreen() {
 
         {/* ── Menu Items ── */}
         <View className="px-6 mb-6">
-          <Text className="text-xs font-semibold tracking-widest text-zinc-500 uppercase mb-3">
+          <Text className="text-xs font-semibold tracking-widest text-muted uppercase mb-3">
             My account
           </Text>
 
-          <View className="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden">
+          <View className="bg-surface border border-border rounded-3xl overflow-hidden">
             {MENU_ITEMS.map((item, index) => (
               <TouchableOpacity
                 key={item.label}
@@ -197,27 +197,27 @@ export default function ProfileScreen() {
                 }}
                 className={`flex-row items-center px-5 py-4 ${
                   index < MENU_ITEMS.length - 1
-                    ? "border-b border-zinc-800"
+                    ? "border-b border-border"
                     : ""
                 }`}
               >
                 {/* Icon */}
-                <View className="w-10 h-10 rounded-2xl bg-zinc-800 items-center justify-center mr-4">
+                <View className="w-10 h-10 rounded-2xl bg-cardInner items-center justify-center mr-4">
                   <Text className="text-lg">{item.icon}</Text>
                 </View>
 
                 {/* Labels */}
                 <View className="flex-1">
-                  <Text className="text-white font-semibold text-sm">
+                  <Text className="text-foreground font-semibold text-sm">
                     {item.label}
                   </Text>
-                  <Text className="text-zinc-500 text-xs mt-0.5">
+                  <Text className="text-muted text-xs mt-0.5">
                     {item.sub}
                   </Text>
                 </View>
 
                 {/* Arrow */}
-                <Text className="text-zinc-600 text-lg font-light">›</Text>
+                <Text className="text-muted text-lg font-light">›</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -228,7 +228,7 @@ export default function ProfileScreen() {
           <TouchableOpacity
             onPress={handleLogout}
             activeOpacity={0.85}
-            className="bg-zinc-900 border border-red-900 rounded-2xl py-4 items-center flex-row justify-center"
+            className="bg-surface border border-error/40 rounded-2xl py-4 items-center flex-row justify-center"
           >
             <Text className="text-red-400 font-bold tracking-wide mr-2">
               Sign Out
